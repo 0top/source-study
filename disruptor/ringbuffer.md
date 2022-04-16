@@ -28,4 +28,6 @@
 屏障
 workpool
 
+根据每个WorkHandler创建对应的WorkProcessor，同一个workpool中的消费者线程共享同一个sequenceBarrier,workSequence，
+
 
