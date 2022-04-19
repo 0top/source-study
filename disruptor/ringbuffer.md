@@ -17,6 +17,7 @@
 
 递增序列号，通过cas操作，线程安全，并且使用padding避免伪共享，使用引用
 
+
 ## 单消费者
 
 消费者使用EventHandler
@@ -30,4 +31,8 @@ workpool
 
 根据每个WorkHandler创建对应的WorkProcessor，同一个workpool中的消费者线程共享同一个sequenceBarrier,workSequence，
 
-
+        WorkerPool<T> workerPool = new WorkerPool<T>(
+                ringBuffer,
+                sequenceBarrier,
+                new EventExceptionHandler(),
+                consumers);
