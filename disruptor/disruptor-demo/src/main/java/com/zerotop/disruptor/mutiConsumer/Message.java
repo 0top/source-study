@@ -1,6 +1,6 @@
 package com.zerotop.disruptor.mutiConsumer;
 
-public class MutiMessage {
+public class Message {
 
     private long num;
 
