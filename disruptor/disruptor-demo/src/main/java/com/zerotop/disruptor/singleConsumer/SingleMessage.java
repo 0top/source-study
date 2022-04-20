@@ -1,7 +1,6 @@
-package com.zerotop.disruptor.muti;
+package com.zerotop.disruptor.singleConsumer;
 
-public class MutiMessage {
-
+public class SingleMessage {
     private long num;
 
     public long getNum() {
@@ -14,7 +13,7 @@ public class MutiMessage {
 
     @Override
     public String toString() {
-        return "MutiMessage{" +
+        return "SingleMessage{" +
                 "num=" + num +
                 '}';
     }

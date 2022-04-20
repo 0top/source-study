@@ -1,4 +1,4 @@
-package com.zerotop.disruptor.single;
+package com.zerotop.disruptor.singleConsumer;
 
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
