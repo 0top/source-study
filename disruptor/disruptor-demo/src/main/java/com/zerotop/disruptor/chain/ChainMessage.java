@@ -1,6 +1,6 @@
-package com.zerotop.disruptor.handlerchain;
+package com.zerotop.disruptor.chain;
 
-public class MutiMessage {
+public class ChainMessage {
 
     private long num;
 
@@ -14,7 +14,7 @@ public class MutiMessage {
 
     @Override
     public String toString() {
-        return "MutiMessage{" +
+        return "Message{" +
                 "num=" + num +
                 '}';
     }
