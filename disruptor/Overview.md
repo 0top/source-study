@@ -6,9 +6,8 @@
 
 ## 简介
 
-LMAX Disruptor是一个高性能的线程间消息传递库。它源于LMAX对并发性、性能和非阻塞算法的研究，如今已成为其Exchange基础设施的核心部分
-
 disruptor主要解决了伪共享问题
+可以链式处理数据，支持多链路，join
 
 ![avatar](img/models.png)
 

@@ -1,6 +1,6 @@
-package com.zerotop.disruptor.chain;
+package com.zerotop.disruptor.chain.diamond;
 
-public class ChainGroupMessage {
+public class DiamondMessage {
 
     private long num;
 

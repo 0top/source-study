@@ -1,17 +1,16 @@
-package com.zerotop.disruptor.chain;
+package com.zerotop.disruptor.chain.diamond;
 
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.util.DaemonThreadFactory;
-import com.zerotop.disruptor.mutiConsumer.Message;
 
 import java.nio.ByteBuffer;
 
-public class ChainGroupMain {
+public class DiamondGroupMain {
     public static void main(String[] args) throws Exception {
         int bufferSize = 512;
 
-        Disruptor<ChainGroupMessage> disruptor = new Disruptor<ChainGroupMessage>(ChainGroupMessage::new, bufferSize, DaemonThreadFactory.INSTANCE);
+        Disruptor<DiamondMessage> disruptor = new Disruptor<DiamondMessage>(DiamondMessage::new, bufferSize, DaemonThreadFactory.INSTANCE);
 
         // 前两个并行步骤执行顺序随机
         disruptor.handleEventsWith(
@@ -23,7 +22,7 @@ public class ChainGroupMain {
                 );
         disruptor.start();
 
-        RingBuffer<ChainGroupMessage> ringBuffer = disruptor.getRingBuffer();
+        RingBuffer<DiamondMessage> ringBuffer = disruptor.getRingBuffer();
         ByteBuffer bb = ByteBuffer.allocate(8);
         for (long l = 0; l < 5; l++)
         {
