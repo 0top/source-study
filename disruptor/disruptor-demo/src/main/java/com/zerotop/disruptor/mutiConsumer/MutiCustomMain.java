@@ -42,7 +42,7 @@ public class MutiCustomMain {
             consumers[i] = new Consumer(i);
         }
 
-        //4 构建多消费者工作池
+        //构建多消费者工作池
         WorkerPool<Message> workerPool = new WorkerPool<Message>(
                 ringBuffer,
                 sequenceBarrier,
