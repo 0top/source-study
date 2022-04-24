@@ -10,7 +10,7 @@ LMAX Disruptor是一个高性能的线程间消息传递库。它源于LMAX对�
 
 ## 重点内容
 
-- [事件驱动](事件驱动.md)
+- [链路](链路.md)
 - [伪共享](伪共享.md)
 - [ringbuffer](ringbuffer.md)
 

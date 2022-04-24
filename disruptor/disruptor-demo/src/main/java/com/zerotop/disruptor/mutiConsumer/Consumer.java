@@ -2,8 +2,6 @@ package com.zerotop.disruptor.mutiConsumer;
 
 import com.lmax.disruptor.WorkHandler;
 
-import java.time.temporal.ChronoUnit;
-
 public class Consumer implements WorkHandler<Message> {
     private int consumerId;
 

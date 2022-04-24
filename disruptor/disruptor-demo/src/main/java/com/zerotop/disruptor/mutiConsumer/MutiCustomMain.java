@@ -49,6 +49,7 @@ public class MutiCustomMain {
                 new FatalExceptionHandler(),
                 consumers);
 
+        //将sequence添加到gatingsequence中追踪
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
 
         workerPool.start(Executors.newFixedThreadPool(5));
