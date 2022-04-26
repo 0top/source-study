@@ -15,6 +15,19 @@
 ![ringbuffer](img/ringbuffer/ringbufferconsumer.png)
 
 
+## Sequencer
+
+- SingleProducerSequencer
+    单生产者
+
+- MultiProducerSequencer
+    多线程写入时使用
+
+## sequenceBarrier
+
+消费者使用时间处理器序号屏障
+
+
 ## Sequence 序列号
 
 递增序列号，通过cas操作，线程安全，并且使用padding避免伪共享，使用引用
