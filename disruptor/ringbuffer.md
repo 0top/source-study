@@ -39,6 +39,8 @@
 
 ## 多生产者多消费者
 
+ 消费者的整体逻辑：多个消费者共同使用同一个Sequence即workSequence，大家都从这个sequence里取得序列号，通过CAS保证线程安全，然后每个消费者拿到序列号nextSequence后去和RingBuffer的cursor比较，即生产者生产到的最大序列号比较，如果自己要取的序号还没有被生产者生产出来，则等待生产者生成出来后再从RingBuffer中取数据，处理数据
+
 消费者使用workHandler，监听委托给线程池
 
 屏障
@@ -51,3 +53,8 @@ workpool
                 sequenceBarrier,
                 new EventExceptionHandler(),
                 consumers);
+
+
+## 参考
+
+- [写入 Ringbuffer](https://ifeve.com/disruptor-writing-ringbuffer/)
