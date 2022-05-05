@@ -37,6 +37,15 @@
 
 消费者使用EventHandler
 
+### 写入顺序
+
+多线程写操作
+
+每个线程会获取对应next，当前线程会等待cursor变为期望cursor执行写入操作，从而保证写操作与提交顺序无关，而与抢占的位置的先后顺序有关，抢在靠前顺序的一定会先写入。
+
+写操作保证是原子的，事务及无锁。
+
+
 ## 多生产者多消费者
 
  消费者的整体逻辑：多个消费者共同使用同一个Sequence即workSequence，大家都从这个sequence里取得序列号，通过CAS保证线程安全，然后每个消费者拿到序列号nextSequence后去和RingBuffer的cursor比较，即生产者生产到的最大序列号比较，如果自己要取的序号还没有被生产者生产出来，则等待生产者生成出来后再从RingBuffer中取数据，处理数据
@@ -48,11 +57,11 @@ workpool
 
 根据每个WorkHandler创建对应的WorkProcessor，同一个workpool中的消费者线程共享同一个sequenceBarrier,workSequence，
 
-        WorkerPool<T> workerPool = new WorkerPool<T>(
-                ringBuffer,
-                sequenceBarrier,
-                new EventExceptionHandler(),
-                consumers);
+    WorkerPool<T> workerPool = new WorkerPool<T>(
+            ringBuffer,
+            sequenceBarrier,
+            new EventExceptionHandler(),
+            consumers);
 
 
 ## 参考
