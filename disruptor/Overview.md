@@ -6,7 +6,9 @@
 
 ## 简介
 
-disruptor主要解决了伪共享问题
+disruptor是一款高性能线程消息传递库  
+使用ringbuffer无锁队列  
+解决了伪共享问题  
 可以链式处理数据，支持多链路，join
 
 ![avatar](img/models.png)

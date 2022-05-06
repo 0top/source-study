@@ -10,14 +10,14 @@ LMAX Disruptor是一个高性能的线程间消息传递库。它源于LMAX对�
 
 ## 重点内容
 
-- [链路](链路.md)
+- [处理链路](链路.md)
 - [伪共享](伪共享.md)
 - [ringbuffer](ringbuffer.md)
 
 ## 为什么快
 
-1. 乐观锁
-2. 底层使用数组，消除伪共享
+1. ringbuffer无锁队列
+2. ringbuffer底层使用数组，并使用padding消除伪共享
 3. ringbuffer内存屏障
 4. 预先分配数组内存，避免频繁gc
 
