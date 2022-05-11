@@ -38,6 +38,21 @@
 注： sequence序列号是一直递增的，通过算法计算出对应ringbuffer下标值
 
 
+## producerBarriers
+
+producerBarrier用于提交生产者写入的entity
+
+写入时需要通过ConsumerTrackingProducerBarrier 判断当前消费者消费下标
+
+![PreventRingFromWrapping](img/ringbuffer/PreventRingFromWrapping.png)
+
+上图为一个生产者写入ringbuffer
+
+
+多生产者写入 通过ClaimStrategy确定当前生产者是否可以写入
+![ProducersNextEntry](img/ringbuffer/ProducersNextEntry.png)
+
+
 ## 单消费者
 
 消费者使用EventHandler
