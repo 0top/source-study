@@ -31,7 +31,7 @@
     递增序列号，通过cas操作，线程安全，并且使用padding避免伪共享，使用引用
 
     注： sequence序列号是一直递增的，通过算法计算出对应ringbuffer下标值
-
+    sequence & (array length－1)
 
 ## producerBarriers
 
@@ -81,4 +81,5 @@
 
 ## 参考
 
+- [disruptor](https://www.jianshu.com/p/bad7b4b44e48)
 - [写入 Ringbuffer](https://ifeve.com/disruptor-writing-ringbuffer/)
