@@ -47,6 +47,7 @@
     多生产者写入 通过ClaimStrategy确定当前生产者是否可以写入
 ![ProducersNextEntry](img/ringbuffer/ProducersNextEntry.png)
 
+## 内存屏障
 
 ## 单消费者
 
