@@ -30,10 +30,17 @@ disruptor是一款高性能线程消息传递库
 
 - Event Processor 事件处理器：主事件循环，用于处理来自干扰程序的事件，并拥有消费者序列的所有权。有一个称为BatchEventProcessor的表示，它包含事件循环的有效实现，并将调用已使用的EventHandler接口实现。
 
+
 - Event Handler 事件处理程序：由用户实现的接口，代表破坏者的消费者。
 
 - Producer 生产者：这是调用破坏者将事件排队的用户代码。这个概念在代码中也没有表示。
 
+## 等待策略
 
+- BusySpinWaitStrategy： 自旋等待，类似Linux Kernel使用的自旋锁。低延迟但同时对CPU资源的占用也多。
+- BlockingWaitStrategy： 使用锁和条件变量。CPU资源的占用少，延迟大，默认等待策略。
+- SleepingWaitStrategy： 在多次循环尝试不成功后，选择让出- CPU，等待下次调度，多次调度后仍不成功，尝试前睡眠一个纳秒级别的时间再尝试。这种策略平衡了延迟和CPU资源占用，但延迟不均匀。
+- YieldingWaitStrategy： 在多次循环尝试不成功后，选择让出CPU，等待下次调。平衡了延迟和CPU资源占用，但延迟也比较均匀。
+- PhasedBackoffWaitStrategy： 上面多种策略的综合，CPU资源的占用少，延迟大
 
 
