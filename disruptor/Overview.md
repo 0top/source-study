@@ -15,25 +15,24 @@ disruptor是一款高性能线程消息传递库
 
 ## 核心概念
 
-- Ring Buffer 环形缓冲区：环形缓冲区通常被认为是破坏者的主要方面。然而，从3.0开始，环形缓冲区只负责存储和更新通过中断器移动的数据（事件）。对于一些高级用例，用户甚至可以完全替换它。
+- Ring Buffer 环形缓冲区：曾经RingBuffer是Disruptor中的最主要的对象，但从3.0版本开始，其职责被简化为仅仅负责对通过Disruptor进行交换的数据（事件）进行存储和更新。在一些更高级的应用场景中，Ring Buffer 可以由用户的自定义实现来完全替代。
 
-- Sequence 序列：破坏者使用序列作为一种手段来识别某个特定组件在哪里。每个消费者（事件处理器）和破坏者本身一样维护一个序列。大多数并发代码依赖于这些序列值的移动，因此该序列支持原子链的许多当前特性。事实上，两者之间唯一真正的区别在于序列包含额外的功能，以防止序列和其他值之间的错误共享。
-
-
-- Sequencer 序列：序列是破坏者真正的核心。该接口的两个实现（单生产者、多生产者）实现了所有并行算法，用于生产者和消费者之间快速、正确地传递数据。
-
-- Sequence Barrier（序列屏障）：Sequencer生成一个序列屏障，其中包含对Sequencer发布的主序列和任何依赖使用者序列的引用。它包含用于确定消费者是否可以处理任何事件的逻辑。
-
-- Wait Strategy 等待策略：等待策略决定消费者将如何等待生产者将事件放入破坏者中。关于可选无锁的部分提供了更多详细信息。
-
-- Event 事件：从生产者传递到消费者的数据单位。事件没有特定的代码表示，因为它完全由用户定义。
-
-- Event Processor 事件处理器：主事件循环，用于处理来自干扰程序的事件，并拥有消费者序列的所有权。有一个称为BatchEventProcessor的表示，它包含事件循环的有效实现，并将调用已使用的EventHandler接口实现。
+- Sequence 序列：通过顺序递增的序号来编号管理通过其进行交换的数据（事件），对数据(事件)的处理过程总是沿着序号逐个递增处理。一个 Sequence 用于跟踪标识某个特定的事件处理者( RingBuffer/Consumer )的处理进度。虽然一个 AtomicLong 也可以用于标识进度，但定义 Sequence 来负责该问题还有另一个目的，那就是防止不同的 Sequence 之间的CPU缓存伪共享(Flase Sharing)问题。
 
 
-- Event Handler 事件处理程序：由用户实现的接口，代表破坏者的消费者。
+- Sequencer 序列：Sequencer 是 Disruptor 的真正核心。此接口有两个实现类 SingleProducerSequencer、MultiProducerSequencer ，它们定义在生产者和消费者之间快速、正确地传递数据的并发算法。
 
-- Producer 生产者：这是调用破坏者将事件排队的用户代码。这个概念在代码中也没有表示。
+- Sequence Barrier（序列屏障）：用于保持对RingBuffer的 main published Sequence 和Consumer依赖的其它Consumer的 Sequence 的引用。 Sequence Barrier 还定义了决定 Consumer 是否还有可处理的事件的逻辑。
+
+- Wait Strategy 等待策略：定义 Consumer 如何进行等待下一个事件的策略。 （注：Disruptor 定义了多种不同的策略，针对不同的场景，提供了不一样的性能表现）
+
+- Event 事件：在 Disruptor 的语义中，生产者和消费者之间进行交换的数据被称为事件(Event)。它不是一个被 Disruptor 定义的特定类型，而是由 Disruptor 的使用者定义并指定。
+
+- Event Processor 事件处理器：EventProcessor 持有特定消费者(Consumer)的 Sequence，并提供用于调用事件处理实现的事件循环(Event Loop)。
+
+- Event Handler 事件处理程序：Disruptor 定义的事件处理接口，由用户实现，用于处理事件，是 Consumer 的真正实现。
+
+- Producer 生产者：即生产者，只是泛指调用 Disruptor 发布事件的用户代码，Disruptor 没有定义特定接口或类型。
 
 ## 等待策略
 

@@ -49,6 +49,8 @@
 
 ## 内存屏障
 
+volatile 
+
 ## 单消费者
 
 消费者使用EventHandler
