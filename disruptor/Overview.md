@@ -21,6 +21,7 @@ disruptor是一款高性能线程消息传递库
 
 
 - Sequencer 序列：Sequencer 是 Disruptor 的真正核心。此接口有两个实现类 SingleProducerSequencer、MultiProducerSequencer ，它们定义在生产者和消费者之间快速、正确地传递数据的并发算法。
+持有sequence,等待策略引用，生产者引用
 
 - Sequence Barrier（序列屏障）：用于保持对RingBuffer的 main published Sequence 和Consumer依赖的其它Consumer的 Sequence 的引用。 Sequence Barrier 还定义了决定 Consumer 是否还有可处理的事件的逻辑。
 
