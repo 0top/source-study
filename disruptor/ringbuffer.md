@@ -49,7 +49,7 @@
 
 ## 内存屏障
 
-volatile 
+sequence的cursor使用volatile 
 
 ## 单消费者
 
@@ -81,6 +81,13 @@ volatile
             new EventExceptionHandler(),
             consumers);
 
+## publish发布
+
+事件发布
+1. 通过sequence申请下一个cursor
+2. sequenceBarrier.waitFor保证链路消费, WaitStrategy.waitFor 等待策略
+3. 申请好后，等待可以写入后，写入完成后发布
+    发布即通过WaitStrategy的condition通知其他线程有新数据
 
 ## 参考
 
