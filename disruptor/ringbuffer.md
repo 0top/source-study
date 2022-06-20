@@ -18,20 +18,20 @@
 - MultiProducerSequencer
     多线程写入时使用
 
-
-## sequenceBarrier
-
-    消费者使用时间处理器序号屏障
-
-    屏障会等待当前序列号为期望序列号后进行数据处理
-
-
 ## Sequence 序列号
 
     递增序列号，通过cas操作，线程安全，并且使用padding避免伪共享，使用引用
 
     注： sequence序列号是一直递增的，通过算法计算出对应ringbuffer下标值
     sequence & (array length－1)
+
+## sequenceBarrier
+    设置消费依赖
+    消费者使用时间处理器序号屏障
+    屏障会等待当前序列号为期望序列号后进行数据处理
+    sequencer.newBarrier(sequencesToTrack); 最终dependentSequence = cursorSequence = cursor
+    即SingleProducerSequencer=已发布最大sequence，生产者只能消费到ringbuffer最新发布后的solt
+      MultiProducerSequencer=已申请最大sequence
 
 ## producerBarriers
 
@@ -46,6 +46,15 @@
 
     多生产者写入 通过ClaimStrategy确定当前生产者是否可以写入
 ![ProducersNextEntry](img/ringbuffer/ProducersNextEntry.png)
+
+
+  // 更新一些重要的东西[详解3]
+        updateGatingSequencesForNextInChain(barrierSequences, processorSequences);
+        barrierSequences=ringbuffer的cursor
+        processorSequences=当前链路的eventhandler列表生成的batchProcessor列表
+
+        ringBuffer.addGatingSequences(processorSequences);
+
 
 ## 内存屏障
 
@@ -88,6 +97,12 @@ sequence的cursor使用volatile
 2. sequenceBarrier.waitFor保证链路消费, WaitStrategy.waitFor 等待策略
 3. 申请好后，等待可以写入后，写入完成后发布
     发布即通过WaitStrategy的condition通知其他线程有新数据
+
+start其实就是启动新的线程
+
+## sequenceBarrier.waitFor
+
+
 
 ## 参考
 
