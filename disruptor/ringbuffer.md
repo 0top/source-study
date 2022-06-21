@@ -8,9 +8,18 @@
 
 ## cursor
 
-实质是一个volatile变量
+是一个sequence，实质是一个通过padding修饰过得volatile变量
+可避免伪共享
 
-## Sequencer
+## Sequencer接口
+
+继承了cursored(游标) 和 sequenced(生产者查询发布)
+主要用来生产者发布，消费者查询
+
+abstractSequence实现sequencer接口，主要维护了标识生产者进度的cursor(Sequence对象)，消费者进度的gatingSequences(Sequencep[]对象)
+
+
+
 
 - SingleProducerSequencer
     单生产者
