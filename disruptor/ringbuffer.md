@@ -1,9 +1,9 @@
 ## ringbuffer
 
 - 底层使用数组，数组预先定义好，可以避免频繁垃圾回收
-- 通过名为cursor的sequence计算下标
+- 通过名为cursor的sequence计算下标，sequence单调递增，sequence & (array length－1)
 - 通过sequence访问数组，对cpu缓存更加友好
-- 只有一个指针表示当前生产|消费下标，采取覆盖方式
+- 只有一个cursor表示当前生产者发布的下标，采取数据覆盖方式
 
 
 ## cursor
@@ -17,9 +17,6 @@
 主要用来生产者发布，消费者查询
 
 abstractSequence实现sequencer接口，主要维护了标识生产者进度的cursor(Sequence对象)，消费者进度的gatingSequences(Sequencep[]对象)
-
-
-
 
 - SingleProducerSequencer
     单生产者
@@ -45,7 +42,6 @@ abstractSequence实现sequencer接口，主要维护了标识生产者进度的c
 ## producerBarriers
 
     producerBarrier用于提交生产者写入的entity
-
     写入时需要通过ConsumerTrackingProducerBarrier 判断当前消费者消费下标
 
 ![PreventRingFromWrapping](img/ringbuffer/PreventRingFromWrapping.png)
@@ -57,7 +53,7 @@ abstractSequence实现sequencer接口，主要维护了标识生产者进度的c
 ![ProducersNextEntry](img/ringbuffer/ProducersNextEntry.png)
 
 
-  // 更新一些重要的东西[详解3]
+       
         updateGatingSequencesForNextInChain(barrierSequences, processorSequences);
         barrierSequences=ringbuffer的cursor
         processorSequences=当前链路的eventhandler列表生成的batchProcessor列表
@@ -68,6 +64,7 @@ abstractSequence实现sequencer接口，主要维护了标识生产者进度的c
 ## 内存屏障
 
 sequence的cursor使用volatile 
+sequenceBarrier作为消费者的屏障，通过sequence确定当前是否可以消费
 
 ## 单消费者
 
@@ -111,7 +108,7 @@ start其实就是启动新的线程
 
 ## sequenceBarrier.waitFor
 
-
+通过waitFor等待期望消费的下标到达消费的位置，或者是依赖的消费者已消费完成
 
 ## 参考
 

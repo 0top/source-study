@@ -7,8 +7,8 @@
 ## 简介
 
 disruptor是一款高性能线程消息传递库  
-使用ringbuffer无锁队列  
-解决了伪共享问题  
+使用ringbuffer无锁队列，使用cas  
+使用padding消除伪共享问题  
 可以链式处理数据，支持多链路，join
 
 ![avatar](img/models.png)
