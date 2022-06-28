@@ -1,15 +1,15 @@
 ## ringbuffer
 
 - 底层使用数组，数组预先定义好，可以避免频繁垃圾回收
-- 通过名为cursor的sequence计算下标，sequence单调递增，sequence & (array length－1)
-- 通过sequence访问数组，对cpu缓存更加友好
+- 通过名为cursor的sequence计算下标，sequence单调递增，通过按位与计算下标sequence & (array length－1)，所以disruptor的大小应该是2的倍数
+- 通过sequence使用cas获取下一个下标，实现无锁
 - 只有一个cursor表示当前生产者发布的下标，采取数据覆盖方式
 
 
 ## cursor
 
-是一个sequence，实质是一个通过padding修饰过得volatile变量
-可避免伪共享
+是一个sequence，实质是一个通过padding修饰过得volatile变量，可避免伪共享
+cas实现无锁
 
 ## Sequencer接口
 
