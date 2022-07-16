@@ -21,6 +21,8 @@ LMAX Disruptor是一个高性能的线程间消息传递库。它源于LMAX对�
 
 ## 链路
 
+可实现多种形状链路
+
 支持单消费者，多消费者
 SingleProducerSequencer
 MultiProducerSequencer
